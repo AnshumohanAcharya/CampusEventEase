@@ -1,0 +1,18 @@
+{
+  "name": "eventomania",
+  "version": "1.0.0",
+  "description": "Eventomania provides a centralized platform for planning, organizing, and executing college events. Powered by the MERN Stack.\r The system provides a highly intuitive and user-friendly interface, coupled with a robust set of tools that greatly enhance the execution of events.\r It streamlines the entire event management process, from event registration to post-event analysis.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "cd client && npm start",
+    "server": "cd server && npm run dev",
+    "start": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

@@ -1,0 +1,10 @@
+const allowedOrigins = [
+  "https://eventomania.onrender.com/",
+  "https://eventomania.netlify.app/",
+  "http://127.0.0.1:5500",
+  "http://localhost:3500",
+  "http://localhost:3000",
+  "http://localhost:8080",
+  "http://localhost:8081",
+];
+export default allowedOrigins;
