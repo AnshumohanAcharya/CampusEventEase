@@ -96,8 +96,8 @@ const Sidebar = ({
                   onClick={() => navigate("/")}
                   sx={{ cursor: "pointer" }}
                 >
-                  <Typography variant='h4' fontWeight='bold'>
-                    <AnimateText text='EVENTOMANIA' delayValue={0.1} />
+                  <Typography variant='h5' fontWeight='bold'>
+                    <AnimateText text='CAMPUSEVENTEASE' delayValue={0.1} />
                   </Typography>
                 </Box>
                 {!isNonMobile && (
