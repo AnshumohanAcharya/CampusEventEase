@@ -57,9 +57,3 @@ export async function generateCertificate(name, eventName, date) {
   // const outputPath = "./utils/modified.pdf";
   // await fs.writeFile(outputPath, pdfBytes);
 }
-
-// generateCertificate2("HASEEB YOUSUF", "NAAC Visit", "3rd May 2023").catch(
-//   (error) => {
-//     console.error("Error modifying PDF:", error);
-//   }
-// );
