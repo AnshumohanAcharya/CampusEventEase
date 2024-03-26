@@ -28,11 +28,8 @@ export const checkRole = (roles) => {
       try {
         const decoded = jwt.verify(access_token, process.env.ACCESS_TOKEN);
         const admin = await Admin.findOne({ _id: decoded.id }).select("role");
-        console.log(admin);
         const adminRole = admin ? admin.role : null;
-        console.log(adminRole);
         if (admin && roles.includes(adminRole)) {
-          console.log("Role Matched");
           next();
         } else {
           return next(new ErrorHandler(403, "Forbidden"));

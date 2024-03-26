@@ -5,6 +5,7 @@ import Admin from "../models/Admin.js";
 import Event from "../models/Event.js";
 import User from "../models/User.js";
 import sendMail from "../utils/sendMail.js";
+import sendEmail from "../utils/sendMail.js";
 import { generateCertificate } from "../utils/generateCertificate.js";
 import { validationResult } from "express-validator";
 
@@ -54,21 +55,21 @@ export const createEvent = async (req, res) => {
     const committeeId = parsedCommittee.id;
     const convenor = await Admin.findOne({ committeeId }).select("email");
     const admin = await Admin.findOne({ role: "admin" }).select("email");
-    const convenorMailOptions = {
-      from: "Eventomania <eventomaniasp@gmail.com>",
-      to: convenor.email,
-      subject: `New Event Created - ${name}`,
-      text: `Hi,\n\nA new event has been created.\n\nEvent Name: ${name}.\nCreated By: ${parsedCreator.name}.\n\nPlease Login to review the event under Unapproved Events Section.\nRegards Team Eventomania.`,
-    };
-    sendMail(convenorMailOptions);
+    // const convenorMailOptions = {
+    //   from: process.env.SMTP_MAIL,
+    //   to: convenor.email,
+    //   subject: `New Event Created - ${name}`,
+    //   text: `Hi,\n\nA new event has been created.\n\nEvent Name: ${name}.\nCreated By: ${parsedCreator.name}.\n\nPlease Login to review the event under Unapproved Events Section.\nRegards Team CampusEventEase.`,
+    // };
+    // sendEmail(convenorMailOptions);
 
-    const adminMailOptions = {
-      from: "Eventomania <eventomaniasp@gmail.com>",
-      to: admin.email,
-      subject: `New Event Created - ${name}`,
-      text: `Hi,\n\nA new event has been created.\n\nEvent Name: ${name}.\nCreated By: ${parsedCreator.name}.\n\nPlease Login to review or Approve the event under Approve Events Section.\nRegards Team Eventomania.`,
-    };
-    sendMail(adminMailOptions);
+    // const adminMailOptions = {
+    //   from: "Eventomania <eventomaniasp@gmail.com>",
+    //   to: admin.email,
+    //   subject: `New Event Created - ${name}`,
+    //   text: `Hi,\n\nA new event has been created.\n\nEvent Name: ${name}.\nCreated By: ${parsedCreator.name}.\n\nPlease Login to review or Approve the event under Approve Events Section.\nRegards Team Eventomania.`,
+    // };
+    // sendEmail(adminMailOptions);
 
     res.status(201).json(savedEvent);
   } catch (error) {
