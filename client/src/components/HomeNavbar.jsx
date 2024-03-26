@@ -79,9 +79,9 @@ const HomeNavbar = () => {
         <FlexBetween>
           <Box
             color={theme.palette.secondary.main}
-            display='flex'
-            alignItems='center'
-            gap='0.5rem'
+            display="flex"
+            alignItems="center"
+            gap="0.5rem"
           >
             <Typography
               color={theme.palette.secondary.main}
@@ -90,16 +90,16 @@ const HomeNavbar = () => {
                 cursor: "pointer",
                 fontWeight: "bold",
               }}
-              variant='h1'
+              variant="h1"
               onClick={() => navigate("/")}
             >
-              <AnimateText text='EVENTOMANIA' delayValue={0.1} />
+              <AnimateText text="CAMPUSEVENTEASE" delayValue={0.1} />
             </Typography>
           </Box>
         </FlexBetween>
         {/* RIGHT SIDE */}
         {isNonMobile ? (
-          <FlexBetween gap='1.5rem'>
+          <FlexBetween gap="1.5rem">
             <FlexBetween>
               {navItems.map(({ text, link }) => {
                 const isActive = active === link;
@@ -130,30 +130,30 @@ const HomeNavbar = () => {
             </FlexBetween>
             {isAuth ? (
               <Button
-                name='dashboard'
+                name="dashboard"
                 sx={{
                   margin: "1rem",
                   fontWeight: "bold",
                 }}
                 onClick={() => navigate("/Dashboard")}
-                variant='contained'
-                color='secondary'
+                variant="contained"
+                color="secondary"
               >
                 Dashboard
               </Button>
             ) : (
-              <Button
-                name='sign_in'
-                sx={{
-                  margin: "1rem",
-                  fontWeight: "bold",
-                }}
-                variant='contained'
-                onClick={() => navigate("/Login")}
-                color='secondary'
-              >
-                Sign IN
-              </Button>
+                <Button
+                  name="sign_in"
+                  sx={{
+                    margin: "1rem",
+                    fontWeight: "bold",
+                  }}
+                  variant="contained"
+                  onClick={() => navigate("/Login")}
+                  color="secondary"
+                >
+                  Sign IN
+                </Button>
             )}
 
             <IconButton
@@ -177,8 +177,8 @@ const HomeNavbar = () => {
       <Drawer
         open={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
-        variant='persistent'
-        anchor='right'
+        variant="persistent"
+        anchor="right"
         sx={{
           width: "250px",
           "& .MuiDrawer-paper": {
@@ -191,15 +191,15 @@ const HomeNavbar = () => {
         }}
       >
         <Box>
-          <Box m='1.5rem 4rem 2rem 1rem'>
+          <Box m="1.5rem 4rem 2rem 1rem">
             <FlexBetween color={theme.palette.secondary.main}>
               {!isNonMobile && (
                 <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
                   <ChevronRight />
                 </IconButton>
               )}
-              <Box display='flex' alignItems='center' gap='0.5rem'>
-                <Typography variant='h4' fontWeight='bold'>
+              <Box display="flex" alignItems="center" gap="0.5rem">
+                <Typography variant="h4" fontWeight="bold">
                   EVENTOMANIA
                 </Typography>
               </Box>
@@ -230,30 +230,30 @@ const HomeNavbar = () => {
         </Box>
         {isAuth ? (
           <Button
-            name='dashboard'
+            name="dashboard"
             sx={{
               margin: "1rem",
               fontWeight: "bold",
             }}
-            variant='contained'
+            variant="contained"
             onClick={() => navigate("/Dashboard")}
-            color='secondary'
+            color="secondary"
           >
             Dashboard
           </Button>
         ) : (
           <Button
-            name='sign_in'
+            name="sign_in"
             sx={{
               margin: "1rem",
               fontWeight: "bold",
             }}
-            variant='contained'
+            variant="contained"
             onClick={() => {
               navigate("/Login");
               setIsSidebarOpen(!isSidebarOpen);
             }}
-            color='secondary'
+            color="secondary"
           >
             Sign IN
           </Button>

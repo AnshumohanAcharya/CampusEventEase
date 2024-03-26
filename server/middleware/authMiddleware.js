@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import Admin from "../models/Admin.js";
-import CatchAsyncError from "./catchAsyncError.js"
+import CatchAsyncError from "./catchAsyncError.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import dotenv from "dotenv";
 dotenv.config();
@@ -23,25 +23,38 @@ export const isAuthenticated = CatchAsyncError(async (req, res, next) => {
 
 export const checkRole = (roles) => {
   return async (req, res, next) => {
-    let token;
-    token = req.cookies.jwt;
-    if (token) {
+    const access_token = req.cookies.access_token;
+    if (access_token) {
       try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const admin = await Admin.findOne({ _id: decoded.userId }).select(
-          "role"
-        );
+        const decoded = jwt.verify(access_token, process.env.ACCESS_TOKEN);
+        const admin = await Admin.findOne({ _id: decoded.id }).select("role");
+        console.log(admin);
         const adminRole = admin ? admin.role : null;
+        console.log(adminRole);
         if (admin && roles.includes(adminRole)) {
+          console.log("Role Matched");
           next();
         } else {
-          return res.status(401).send("Forbidden");
+          return next(new ErrorHandler(403, "Forbidden"));
         }
       } catch (error) {
-        return res.status(401).send("Not Authorized");
+        return next(new ErrorHandler(403, "Not Authorized"));
       }
     } else {
-      return res.status(401).send("Not Authorized, No Token");
+      return next(
+        new ErrorHandler(403, "Please Login to access this resource")
+      );
     }
+  };
+};
+
+export const authorizeRoles = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user?.role || "")) {
+      return next(
+        new ErrorHandler(403, "You are not authorized to access this resource")
+      );
+    }
+    next();
   };
 };

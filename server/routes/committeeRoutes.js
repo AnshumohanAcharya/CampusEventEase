@@ -4,7 +4,7 @@ import {
   getCommittees,
   deleteCommittee,
 } from "../controllers/committeeController.js";
-import { checkRole } from "../middleware/authMiddleware.js";
+import { checkRole , authorizeRoles } from "../middleware/authMiddleware.js";
 import { committeeValidationRules } from "../middleware/validationMiddleware.js";
 
 const router = express.Router();
@@ -12,6 +12,7 @@ const router = express.Router();
 router.post(
   "/addCommittee",
   checkRole(["admin"]),
+  // authorizeRoles("admin"),
   committeeValidationRules,
   addCommittee
 );

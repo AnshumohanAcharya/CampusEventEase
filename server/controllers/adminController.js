@@ -37,7 +37,6 @@ export const registerAdmin = CatchAsyncError(async (req, res, next) => {
       committeeId,
       mobile,
     });
-    console.log(newAdmin);
     const activationToken = createActivationToken(newAdmin);
     const activationCode = activationToken.activationCode;
     const data = {
@@ -446,16 +445,16 @@ export const changePassword = async (req, res) => {
 
     const user = await Admin.findOne({ _id: userId });
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return next(new ErrorHandler(404, "User not found."));
     }
 
     const isMatch = await bcrypt.compare(currentPassword, user.password);
     if (!isMatch) {
-      return res.status(400).json({ msg: "Current Password is Not Valid!" });
+      return next(new ErrorHandler(400, "Current password is not valid!"));
     }
 
     if (newPassword !== cNewPassword) {
-      return res.status(400).json({ msg: "New Passwords do not match!" });
+      return next(new ErrorHandler(400, "New passwords do not match!"));
     }
 
     const salt = await bcrypt.genSalt();

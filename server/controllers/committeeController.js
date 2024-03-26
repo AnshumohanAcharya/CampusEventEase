@@ -7,6 +7,7 @@ import Committee from "../models/Committee.js";
 export const addCommittee = async (req, res) => {
   try {
     const errors = validationResult(req);
+    // console.log(errors.array())
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
@@ -15,7 +16,7 @@ export const addCommittee = async (req, res) => {
     const savedCommittee = await newCommittee.save();
     res.status(201).json(savedCommittee);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return next(new ErrorHandler(500, error.message));
   }
 };
 
@@ -27,7 +28,7 @@ export const getCommittees = async (req, res) => {
     const committees = await Committee.find();
     res.status(200).json(committees);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return next(new ErrorHandler(500, error.message));
   }
 };
 
@@ -44,6 +45,6 @@ export const deleteCommittee = async (req, res) => {
       res.status(500).json({ error: error.message });
     }
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return next(new ErrorHandler(500, error.message));
   }
 };

@@ -50,7 +50,7 @@ AdminSchema.pre("save", async function (next) {
 AdminSchema.methods.SignAccessToken = function () {
   try {
     return jwt.sign({ id: this._id }, process.env.ACCESS_TOKEN || "", {
-      expiresIn: "5m",
+      expiresIn: "30d",
     });
   } catch (error) {
     throw new Error("Error signing access token");
