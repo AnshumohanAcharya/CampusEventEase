@@ -18,7 +18,7 @@ const Footer = () => {
       <Typography textAlign='center' fontSize={!isNonMobile && "0.7rem"}>
         Developed with ❤️ By
         <Typography mx={1} variant='span' fontWeight='bold' color='secondary'>
-          <Link> Anshumohan Acharya</Link>
+          Group 9
         </Typography>
       </Typography>
     </Box>
