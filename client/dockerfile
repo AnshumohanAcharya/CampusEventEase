@@ -1,0 +1,20 @@
+FROM node:20.10.0
+WORKDIR /client
+
+
+COPY public/ /client/public
+COPY src/ /client/src
+COPY package.json /client/
+
+
+
+# Install dependencies
+RUN npm install 
+
+
+# Start server on port 8080
+EXPOSE 3000
+
+CMD [ "npm","start" ]
+
+
