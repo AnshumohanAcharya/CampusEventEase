@@ -4,7 +4,7 @@ import Committee from "../models/Committee.js";
 //@desc     create a new committee
 //@route    POST /committee/addCommittee
 //@access   private {admin}
-export const addCommittee = async (req, res) => {
+export const addCommittee = async (req, res,next) => {
   try {
     const errors = validationResult(req);
     // console.log(errors.array())
@@ -23,7 +23,7 @@ export const addCommittee = async (req, res) => {
 //@desc     get list of committees
 //@route    GET /committee/getCommittees
 //@access   public
-export const getCommittees = async (req, res) => {
+export const getCommittees = async (req, res,next) => {
   try {
     const committees = await Committee.find();
     res.status(200).json(committees);
@@ -35,7 +35,7 @@ export const getCommittees = async (req, res) => {
 //@desc     delete a committee
 //@route    POST /committee/deleteCommittee
 //@access   private {admin}
-export const deleteCommittee = async (req, res) => {
+export const deleteCommittee = async (req, res,next) => {
   try {
     const { committeeId } = req.body;
     const deletedCommittee = await Committee.deleteOne({ _id: committeeId });

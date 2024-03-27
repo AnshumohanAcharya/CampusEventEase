@@ -93,7 +93,7 @@ const HomeNavbar = () => {
               variant="h1"
               onClick={() => navigate("/")}
             >
-              <AnimateText text="CAMPUSEVENTEASE" delayValue={0.1} />
+              <AnimateText text="CampusEventEase" delayValue={0.1} />
             </Typography>
           </Box>
         </FlexBetween>

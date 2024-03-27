@@ -15,7 +15,7 @@ import {
 import { checkRole } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
-router.post("/createEvents", checkRole(["convenor"]), createEvent);
+router.post("/createEvents", checkRole(["convenor","member"]), createEvent);
 router.get("/unapprovedEvents", checkRole(["admin"]), getUnApprovedEvents);
 router.post(
   "/committeeUnapprovedEvents",

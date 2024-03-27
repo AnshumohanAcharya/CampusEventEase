@@ -1,5 +1,7 @@
 import fs from "fs";
 import moment from "moment";
+import dotenv from "dotenv";
+dotenv.config();
 
 import Admin from "../models/Admin.js";
 import Event from "../models/Event.js";
@@ -12,7 +14,7 @@ import { validationResult } from "express-validator";
 //@desc     create a new Event
 //@route    POST /event/createEvent
 //@access   private {convenor, member}
-export const createEvent = async (req, res) => {
+export const createEvent = async (req, res,next) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -80,7 +82,7 @@ export const createEvent = async (req, res) => {
 //@desc     upload report of an Event
 //@route    POST /event/uploadReport
 //@access   private {convenor, member}
-export const uploadReport = async (req, res) => {
+export const uploadReport = async (req, res,next) => {
   try {
     //get file from req.file
     const report = req.file;
@@ -104,7 +106,7 @@ export const uploadReport = async (req, res) => {
 //@desc     upload photos of an Event
 //@route    POST /event/uploadPhotos
 //@access   private {convenor, member}
-export const uploadPhotos = async (req, res) => {
+export const uploadPhotos = async (req, res,next) => {
   try {
     const uploadedPhotos = req.files;
     const photosArray = [];
@@ -136,7 +138,7 @@ export const uploadPhotos = async (req, res) => {
 //@desc     get a single event
 //@route    POST /events/getEvent
 //@access   public
-export const getEvent = async (req, res) => {
+export const getEvent = async (req, res,next) => {
   try {
     const { eventId } = req.body;
     const event = await Event.findOne({ _id: eventId });
@@ -150,7 +152,7 @@ export const getEvent = async (req, res) => {
 //@desc     get a list of all unApproved events
 //@route    GET /events/unapprovedEvents
 //@access   private {admin}
-export const getUnApprovedEvents = async (req, res) => {
+export const getUnApprovedEvents = async (req, res,next) => {
   try {
     const events = await Event.find({ isApproved: "false" });
     res.status(200).json(events);
@@ -162,7 +164,7 @@ export const getUnApprovedEvents = async (req, res) => {
 //@desc     get a list of all unApproved events of a committee
 //@route    POST /events/committeeUnapprovedEvents
 //@access   private {convenor, member}
-export const getCommitteeUnApprovedEvents = async (req, res) => {
+export const getCommitteeUnApprovedEvents = async (req, res,next) => {
   try {
     const { committeeId } = req.body;
     const events = await Event.find({
@@ -182,7 +184,7 @@ export const getCommitteeUnApprovedEvents = async (req, res) => {
 //@desc     get a list of all published events
 //@route    GET /events/publishedEvents
 //@access   public
-export const getPublishedEvents = async (req, res) => {
+export const getPublishedEvents = async (req, res,next) => {
   try {
     const events = await Event.find({ isPublished: "true" });
     res.status(200).json(events);
@@ -194,7 +196,7 @@ export const getPublishedEvents = async (req, res) => {
 //@desc     get a list of all approved events
 //@route    GET /events/approvedEvents
 //@access   private {admin}
-export const getApprovedEvents = async (req, res) => {
+export const getApprovedEvents = async (req, res,next) => {
   try {
     const events = await Event.find({ isApproved: "true" });
     res.status(200).json(events);
@@ -206,7 +208,7 @@ export const getApprovedEvents = async (req, res) => {
 //@desc     get a list of all approved events of a committee
 //@route    POST /events/committeeApprovedEvents
 //@access   private {convenor, member}
-export const getCommitteeApprovedEvents = async (req, res) => {
+export const getCommitteeApprovedEvents = async (req, res,next) => {
   try {
     const { committeeId } = req.body;
     const events = await Event.find({
@@ -226,7 +228,7 @@ export const getCommitteeApprovedEvents = async (req, res) => {
 //@desc     approve an event
 //@route    POST /events/approveEvent
 //@access   private {admin}
-export const approveEvent = async (req, res) => {
+export const approveEvent = async (req, res,next) => {
   try {
     const { id } = req.body;
     const filter = { _id: id };
@@ -243,7 +245,7 @@ export const approveEvent = async (req, res) => {
 //@desc     toggle whether an event should be published or not
 //@route    POST /events/togglePublish
 //@access   private {admin}
-export const togglePublish = async (req, res) => {
+export const togglePublish = async (req, res,next) => {
   try {
     const { id, isPublished } = req.body;
     const filter = { _id: id };
@@ -260,7 +262,7 @@ export const togglePublish = async (req, res) => {
 //@desc     delete an events
 //@route    POST /events/deleteEvent
 //@access   private {admin}
-export const deleteEvent = async (req, res) => {
+export const deleteEvent = async (req, res,next) => {
   try {
     const { eventId } = req.body;
     // Fetch the event before deleting it to access the file paths
@@ -295,7 +297,7 @@ export const deleteEvent = async (req, res) => {
 //@desc     send certificates of an event
 //@route    POST /events/sendCertificate
 //@access   private {admin, convenor, member}
-export const sendCertificate = async (req, res) => {
+export const sendCertificate = async (req, res,next) => {
   try {
     const { id, eventDate } = req.body;
 
@@ -310,7 +312,7 @@ export const sendCertificate = async (req, res) => {
 
         if (user.email) {
           const mailOptions = {
-            from: "Eventomania <eventomaniasp@gmail.com>",
+            from: process.env.SMTP_MAIL,
             to: user.email,
             subject: `Event Certificate - ${user.event[0].name}`,
             text: `Dear ${user.name},\n\nThank You!\nFor attending the event "${user.event[0].name}". Attached to this email is your certificate.\n\nBest regards,\nTeam Eventomania .`,
@@ -321,7 +323,7 @@ export const sendCertificate = async (req, res) => {
               },
             ],
           };
-          sendMail(mailOptions);
+          sendEmail(mailOptions);
         }
       }
       const filter = { _id: id };

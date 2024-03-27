@@ -142,7 +142,7 @@ export const verifyAdmin = CatchAsyncError(async (req, res, next) => {
 //@desc     logout user
 //@route    GET /admin/logout
 //@access   Public
-export const logout = CatchAsyncError(async (req, res) => {
+export const logout = CatchAsyncError(async (req, res,next) => {
   try {
     res.cookie("access_token", "", {
       maxAge: 1,
@@ -229,7 +229,7 @@ export const updateUserRole = CatchAsyncError(async (req, res, next) => {
 //@desc     add a new convenor
 //@route    POST /admin/addConvenor
 //@access   private {admin}
-export const addConvenor = async (req, res) => {
+export const addConvenor = async (req, res,next) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -241,9 +241,10 @@ export const addConvenor = async (req, res) => {
     const user = await Admin.findOne({ email: lcEmail });
     if (user) {
       return next(new ErrorHandler(400, "Email already exists"));
-    } else {
-      const salt = await bcrypt.genSalt();
-      const passwordHash = await bcrypt.hash(password, salt);
+    } 
+    else {
+    //   const salt = await bcrypt.genSalt();
+    //   const passwordHash = await bcrypt.hash(password, salt);
       const existingConvenor = await Admin.findOne({
         committeeId: committeeId,
       });
@@ -251,7 +252,7 @@ export const addConvenor = async (req, res) => {
         const filterAdmin = { committeeId: committeeId };
         const updateAdmin = {
           email: lcEmail,
-          password: passwordHash,
+          password,
           name,
           role,
           committeeName,
@@ -277,7 +278,7 @@ export const addConvenor = async (req, res) => {
       } else {
         const newConvenor = new Admin({
           email: lcEmail,
-          password: passwordHash,
+          password,
           name,
           role,
           committeeName,
@@ -299,14 +300,14 @@ export const addConvenor = async (req, res) => {
       }
     }
   } catch (err) {
-    return next(new ErrorHandler(500, error.message));
+    return next(new ErrorHandler(500, err.message));
   }
 };
 
 //@desc     get list of convenors
 //@route    GET /admin/convenors
 //@access   private {admin}
-export const getConvenors = async (req, res) => {
+export const getConvenors = async (req, res,next) => {
   try {
     const convenors = await Admin.find({ role: "convenor" }).select(
       "-password"
@@ -320,7 +321,7 @@ export const getConvenors = async (req, res) => {
 //@desc     delete a  convenor
 //@route    POST /admin/deleteConvenor
 //@access   private {admin}
-export const deleteConvenor = async (req, res) => {
+export const deleteConvenor = async (req, res,next) => {
   try {
     const { convenorId, committeeId } = req.body;
     const deletedConvenor = await Admin.deleteOne({ _id: convenorId });
@@ -344,7 +345,7 @@ export const deleteConvenor = async (req, res) => {
 //@desc     add a new member
 //@route    POST /admin/addMember
 //@access   private {admin,convenor}
-export const addMember = async (req, res) => {
+export const addMember = async (req, res,next) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -365,11 +366,11 @@ export const addMember = async (req, res) => {
     if (user) {
       res.status(400).json({ msg: "Email already exists" });
     } else {
-      const salt = await bcrypt.genSalt();
-      const passwordHash = await bcrypt.hash(memberPassword, salt);
+      // const salt = await bcrypt.genSalt();
+      // const passwordHash = await bcrypt.hash(memberPassword, salt);
       const newMember = new Admin({
         email: lcEmail,
-        password: passwordHash,
+        password: memberPassword,
         name: memberName,
         role,
         committeeName,
@@ -387,7 +388,7 @@ export const addMember = async (req, res) => {
 //@desc     get list of members
 //@route    GET /admin/members
 //@access   private {admin}
-export const getMembers = async (req, res) => {
+export const getMembers = async (req, res,next) => {
   try {
     const members = await Admin.find({ role: "member" }).select("-password");
     res.status(200).json(members);
@@ -399,7 +400,7 @@ export const getMembers = async (req, res) => {
 //@desc     delete a  member
 //@route    POST /admin/deleteMember
 //@access   private {admin,convenor}
-export const deleteMember = async (req, res) => {
+export const deleteMember = async (req, res,next) => {
   try {
     const { memberId } = req.body;
     const deletedMember = await Admin.deleteOne({ _id: memberId });
@@ -416,7 +417,7 @@ export const deleteMember = async (req, res) => {
 //@desc     get list of members of a particular committee
 //@route    POST /admin/committeeMembers
 //@access   private {convenor, member}
-export const getCommitteeMembers = async (req, res) => {
+export const getCommitteeMembers = async (req, res,next) => {
   try {
     const { committeeId } = req.body;
     const filter = { committeeId: committeeId };
@@ -435,7 +436,7 @@ export const getCommitteeMembers = async (req, res) => {
 //@desc     changed password
 //@route    POST /admin/changePassword
 //@access   private {admin, convenor, member}
-export const changePassword = async (req, res) => {
+export const changePassword = async (req, res,next) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
