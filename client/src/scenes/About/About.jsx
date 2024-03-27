@@ -48,16 +48,12 @@ const About = () => {
               width='90%'
               color={theme.palette.secondary.main}
             >
-              ABOUT EVENTOMANIA
+              About CampusEventEase
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-              eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-              eget.
+              ABC
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -86,11 +82,7 @@ const About = () => {
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-              eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-              eget.
+              Group 9
             </Typography>
           </AccordionDetails>
         </Accordion>
