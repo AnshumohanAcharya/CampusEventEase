@@ -1,22 +1,13 @@
-# Fetching the latest node image on alpine linux
-FROM node:alpine AS development
+FROM node:20.10.0
 
-# Declaring env
-ENV NODE_ENV development
+WORKDIR /index
 
-# Setting up the work directory
-WORKDIR /server
-
-# Installing dependencies
-COPY ./package*.json /server
-
+COPY package.json .
 
 RUN npm install
 
-# Copying all the files in our project
 COPY . .
 
-EXPOSE 3001
+EXPOSE 8000
 
-# Starting our application
-CMD ["npm","start"]
+CMD [ "npm","start"]
