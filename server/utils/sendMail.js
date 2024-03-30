@@ -37,19 +37,4 @@ const sendMail = async (options) => {
   await transporter.sendMail(mailOptions);
 };
 
-export const sendEmail = async (options) => {
-  try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.SMTP_MAIL,
-        pass: process.env.SMTP_PASSWORD,
-      },
-    });
-    return await transporter.sendEmail(options);
-  } catch (error) {
-    return error;
-  }
-};
-
 export default sendMail;

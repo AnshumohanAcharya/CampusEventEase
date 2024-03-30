@@ -9,6 +9,7 @@ import multer from "multer";
 import sharp from "sharp";
 import { v4 as uuidv4 } from "uuid";
 import cookieParser from "cookie-parser";
+import { rateLimit } from 'express-rate-limit'
 
 import path from "path";
 import fs from "fs";
@@ -31,6 +32,13 @@ import { eventValidationRules } from "./middleware/validationMiddleware.js";
 // CONFIGURATION
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+  delayAfter: 10, // begin slowing down responses after the first request
+	limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+	standardHeaders: 'draft-7',
+	legacyHeaders: false,
+})
 
 //middleware
 dotenv.config();
@@ -40,11 +48,13 @@ app.use(credentials);
 app.use(cors(corsOptions));
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+app.use(limiter)
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+
 
 //set directory of where we store files
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));

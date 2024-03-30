@@ -12,6 +12,7 @@ export const accessTokenOptions = {
   maxAge: accessTokenExpire * 60 * 60 * 1000,
   httpOnly: true,
   sameSite: "lax",
+  secure: true
 };
 
 export const refreshTokenOptions = {
@@ -19,6 +20,7 @@ export const refreshTokenOptions = {
   maxAge: refreshTokenExpire * 24 * 60 * 60 * 1000,
   httpOnly: true,
   sameSite: "lax",
+  secure: true
 };
 
 export const sendToken = (user, statusCode, res) => {
@@ -26,9 +28,9 @@ export const sendToken = (user, statusCode, res) => {
   const refreshToken = user.SignRefreshToken();
 
   //Only set secure to true in production
-  if (process.env.NODE_ENV === "production") {
-    accessTokenOptions.secure = true;
-  }
+  // if (process.env.NODE_ENV === "production") {
+  //   accessTokenOptions.secure = true;
+  // }
 
   res.cookie("access_token", accessToken, accessTokenOptions);
   res.cookie("refresh_token", refreshToken, refreshTokenOptions);

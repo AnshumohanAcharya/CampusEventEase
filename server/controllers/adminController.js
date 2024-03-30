@@ -23,13 +23,12 @@ export const registerAdmin = CatchAsyncError(async (req, res, next) => {
   try {
     const { name, email, password, role, committeeName, committeeId, mobile } =
       req.body;
-    const lcEmail = email.toLowerCase();
-    const user = await Admin.findOne({ email: lcEmail });
+    const user = await Admin.findOne({ email: email });
     if (user) {
       return next(new ErrorHandler(400, "Email already exists"));
     }
     const newAdmin = new Admin({
-      email: lcEmail,
+      email,
       password,
       name,
       role,
@@ -61,8 +60,8 @@ export const registerAdmin = CatchAsyncError(async (req, res, next) => {
         message: `An email has been sent to ${newAdmin.email}. Please check your email to activate your account`,
         activationToken: activationToken.token,
       });
-    } catch (Error) {
-      return next(new ErrorHandler(400, Error.message));
+    } catch (error) {
+      return next(new ErrorHandler(400, error.message));
     }
   } catch (error) {
     return next(new ErrorHandler(400, error.message));
@@ -127,8 +126,7 @@ export const verifyAdmin = CatchAsyncError(async (req, res, next) => {
     if (!email || !password) {
       return next(new ErrorHandler(400, "Please enter your email & password"));
     }
-    const lcEmail = email.toLowerCase();
-    const admin = await Admin.findOne({ email: lcEmail }).select("+password");
+    const admin = await Admin.findOne({ email: email }).select("+password");
     if (!admin) return next(new ErrorHandler(400, "Invalid email or password"));
     const isMatch = await admin.comparePassword(password);
     if (!isMatch)
@@ -148,11 +146,13 @@ export const logout = CatchAsyncError(async (req, res,next) => {
       maxAge: 1,
       expires: new Date(Date.now()),
       httpOnly: true,
+      secure: true,
     });
     res.cookie("refresh_token", "", {
       maxAge: 1,
       expires: new Date(Date.now()),
       httpOnly: true,
+      secure: true,
     });
     res.status(200).json({
       success: true,
@@ -192,8 +192,8 @@ export const updateAccessToken = CatchAsyncError(async (req, res, next) => {
       expiresIn: "3d",
     });
 
-    res.cookie("access_token", accessToken, accessTokenOptions);
-    res.cookie("refresh_token", refreshToken, refreshTokenOptions);
+    res.cookie("access_token", accessToken, accessTokenOptions , {httpOnly: true,  secure: true});
+    res.cookie("refresh_token", refreshToken, refreshTokenOptions , {httpOnly: true , secure: true});
 
     res.status(200).json({
       success: true,
@@ -237,8 +237,7 @@ export const addConvenor = async (req, res,next) => {
     }
     const { name, email, password, committeeId, committeeName, role, mobile } =
       req.body;
-    const lcEmail = email.toLowerCase();
-    const user = await Admin.findOne({ email: lcEmail });
+    const user = await Admin.findOne({ email: email });
     if (user) {
       return next(new ErrorHandler(400, "Email already exists"));
     } 
@@ -251,7 +250,7 @@ export const addConvenor = async (req, res,next) => {
       if (existingConvenor) {
         const filterAdmin = { committeeId: committeeId };
         const updateAdmin = {
-          email: lcEmail,
+          email,
           password,
           name,
           role,
@@ -277,7 +276,7 @@ export const addConvenor = async (req, res,next) => {
         res.status(201).json({ updatedConvenor, updatedCommittee });
       } else {
         const newConvenor = new Admin({
-          email: lcEmail,
+          email,
           password,
           name,
           role,
@@ -360,16 +359,15 @@ export const addMember = async (req, res,next) => {
       role,
       mobile,
     } = req.body;
-    const lcEmail = memberEmail.toLowerCase();
 
-    const user = await Admin.findOne({ email: lcEmail });
+    const user = await Admin.findOne({ email: memberEmail });
     if (user) {
       res.status(400).json({ msg: "Email already exists" });
     } else {
       // const salt = await bcrypt.genSalt();
       // const passwordHash = await bcrypt.hash(memberPassword, salt);
       const newMember = new Admin({
-        email: lcEmail,
+        email: memberEmail,
         password: memberPassword,
         name: memberName,
         role,
