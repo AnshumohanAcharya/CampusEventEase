@@ -69,7 +69,7 @@ export const createEvent = async (req, res,next) => {
       from: process.env.SMTP_MAIL,
       to: admin.email,
       subject: `New Event Created - ${name}`,
-      text: `Hi,\n\nA new event has been created.\n\nEvent Name: ${name}.\nCreated By: ${parsedCreator.name}.\n\nPlease Login to review or Approve the event under Approve Events Section.\nRegards Team Eventomania.`,
+      text: `Hi,\n\nA new event has been created.\n\nEvent Name: ${name}.\nCreated By: ${parsedCreator.name}.\n\nPlease Login to review or Approve the event under Approve Events Section.\nRegards Team CampusEventEase.`,
     };
     sendEmail(adminMailOptions);
 
