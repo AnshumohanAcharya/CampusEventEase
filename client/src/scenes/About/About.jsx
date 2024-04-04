@@ -86,7 +86,7 @@ const About = () => {
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              Group 9
+              Group 8
             </Typography>
           </AccordionDetails>
         </Accordion>

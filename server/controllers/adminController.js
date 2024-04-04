@@ -21,6 +21,10 @@ import { dirname } from "path";
 //@access   Public
 export const registerAdmin = CatchAsyncError(async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     const { name, email, password, role, committeeName, committeeId, mobile } =
       req.body;
     const user = await Admin.findOne({ email: email });
