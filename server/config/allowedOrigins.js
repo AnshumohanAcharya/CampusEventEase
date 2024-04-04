@@ -4,5 +4,6 @@ const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:8080",
   "http://localhost:8081",
+  "https://campus-event-ease-client.vercel.app",
 ];
 export default allowedOrigins;
