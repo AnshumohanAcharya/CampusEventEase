@@ -53,7 +53,7 @@ const About = () => {
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              Welcome to CampusEventEase, your one-stop solution for seamless academic event management!
+            Welcome to CampusEventEase, your one-stop solution for seamless academic event management!
             CampusEventEase is designed to revolutionize the way events are organized and accessed within college campuses. Our platform offers a user-friendly interface, empowering both event organizers and students to effortlessly navigate through the registration process and maximize their engagement with academic activities.
             With CampusEventEase, students can create personalized accounts, browse through a diverse range of events including workshops, seminars, and conferences, and easily register for those that pique their interest. Our intuitive system ensures that the registration process is smooth and hassle-free, allowing students to focus on what matters most - their academic and personal growth.
             For event organizers, CampusEventEase provides a comprehensive suite of tools to streamline event management. From creating event listings and managing attendee registrations to facilitating communication with participants, our platform simplifies every aspect of organizing academic events. With CampusEventEase, organizers can devote more time and energy to delivering impactful and enriching experiences for attendees.

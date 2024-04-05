@@ -2,7 +2,10 @@
 
 ## About
 
-Brief description of your project goes here.
+CampusEventEase aims to enhance the efficiency of managing academic events on a college campus. 
+The system allows users to create accounts, register for events, and facilitates event organizers in creating, managing, and communicating with attendees for various events
+It seamlessly integrates technology and user-centric design for streamlined event planning.
+Empowers organizers to coordinate every aspect from venue selection to attendee registration effortlessly.
 
 ## Contact
 
@@ -24,7 +27,6 @@ It has been shared on owasp@iiitkottayam.ac.in
 You can start the project by writing the below given command : 
 ## Code Examples
 
-### Example 1: Hello World in Python
 ```
 npm install
 
