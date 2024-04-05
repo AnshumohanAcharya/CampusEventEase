@@ -32,13 +32,13 @@ import { eventValidationRules } from "./middleware/validationMiddleware.js";
 // CONFIGURATION
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const limiter = rateLimit({
-	windowMs: 15 * 60 * 1000, // 15 minutes
-  delayAfter: 10, // begin slowing down responses after the first request
-	limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
-	standardHeaders: 'draft-7',
-	legacyHeaders: false,
-})
+// const limiter = rateLimit({
+// 	windowMs: 15 * 60 * 1000, // 15 minutes
+//   delayAfter: 10, // begin slowing down responses after the first request
+// 	limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+// 	standardHeaders: 'draft-7',
+// 	legacyHeaders: false,
+// })
 
 //middleware
 dotenv.config();
@@ -48,7 +48,7 @@ app.use(credentials);
 app.use(cors(corsOptions));
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
-app.use(limiter)
+// app.use(limiter)
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(morgan("common"));
