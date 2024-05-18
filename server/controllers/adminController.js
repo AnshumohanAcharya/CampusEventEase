@@ -12,7 +12,7 @@ import jwt from "jsonwebtoken";
 import path from "path";
 import ejs from "ejs";
 import CatchAsyncError from "../middleware/catchAsyncError.js";
-import ErrorHandler from "../utils/errorHandler.js";
+import ErrorHandler from "../utils/ErrorHandler.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
