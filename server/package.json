@@ -5,12 +5,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --exec babel-node src/index.js",
     "build": "babel src -d dist",
     "start": "node dist/index.js",
-    "both-dev": "concurrently \"npm run dev\" \"cd client && npm start\""
-  },
+    "both-dev": "concurrently \"npm run dev\" \"npm --prefix ../client/ run dev\""
+},
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -39,5 +38,12 @@
     "sharp": "^0.33.2",
     "url": "^0.11.3",
     "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.24.5",
+    "@babel/core": "^7.24.5",
+    "@babel/node": "^7.23.9",
+    "@babel/preset-env": "^7.24.5",
+    "babel-plugin-module-resolver": "^5.0.2"
   }
 }
